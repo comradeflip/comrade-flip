@@ -1,0 +1,16 @@
+[[package]]
+name = "coinflip"
+source = "member"
+dependencies = [
+    "std",
+    "vrf_abi",
+]
+
+[[package]]
+name = "std"
+source = "git+https://github.com/fuellabs/sway?tag=v0.67.0#d821dcb0c7edb1d6e2a772f5a1ccefe38902eaec"
+
+[[package]]
+name = "vrf_abi"
+source = "path+from-root-F5FA8693FFF95FF7"
+dependencies = ["std"]
