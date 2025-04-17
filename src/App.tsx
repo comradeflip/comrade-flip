@@ -336,7 +336,7 @@ function App() {
               <input
                 type="range"
                 min={1000}
-                max={250000}
+                max={25000}
                 step={1000}
                 value={betAmount}
                 onChange={(e) => setBetAmount(Number(e.target.value))}
@@ -361,7 +361,7 @@ function App() {
                     WebkitTextStroke: "1px #FFCC57",
                   }}
                 >
-                  250000 FUEL
+                  25000 FUEL
                 </span>
               </div>
             </div>
