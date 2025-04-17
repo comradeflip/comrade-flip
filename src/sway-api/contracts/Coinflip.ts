@@ -429,6 +429,44 @@ const abi = {
     {
       "inputs": [
         {
+          "name": "max_bet",
+          "concreteTypeId": "1506e6f44c1d6291cdf46395a8e573276a4fa79e8ace3fc891e092ef32d1b0a0"
+        }
+      ],
+      "name": "set_max_bet",
+      "output": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d",
+      "attributes": [
+        {
+          "name": "storage",
+          "arguments": [
+            "read",
+            "write"
+          ]
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "name": "min_bet",
+          "concreteTypeId": "1506e6f44c1d6291cdf46395a8e573276a4fa79e8ace3fc891e092ef32d1b0a0"
+        }
+      ],
+      "name": "set_min_bet",
+      "output": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d",
+      "attributes": [
+        {
+          "name": "storage",
+          "arguments": [
+            "read",
+            "write"
+          ]
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
           "name": "asset_id",
           "concreteTypeId": "c0710b6731b1dd59799cf6bef33eee3b3b04a2e40e80a0724090215bbf2ca974"
         },
@@ -462,6 +500,14 @@ const abi = {
 
 const storageSlots: StorageSlot[] = [
   {
+    "key": "0b79ee3be5f92d713af48c75bac5d928eca91865eaca343373f41c52ff3be057",
+    "value": "000000e8d4a51000000000000000000000000000000000000000000000000000"
+  },
+  {
+    "key": "2a2759589f48635ca2459716072ccaa234c39122d40171aea9387e101ffc1127",
+    "value": "000016bcc41e9000000000000000000000000000000000000000000000000000"
+  },
+  {
     "key": "54a43d3f5e8cc1faa4b90f799bedf467f1f954928896bd93c1ecc8d6094c70f0",
     "value": "0000000000000000000000000000000000000000000000000000000000000000"
   }
@@ -481,6 +527,8 @@ export class CoinflipInterface extends Interface {
     get_history: FunctionFragment;
     get_seed_by_counter: FunctionFragment;
     round_cost: FunctionFragment;
+    set_max_bet: FunctionFragment;
+    set_min_bet: FunctionFragment;
     withdraw: FunctionFragment;
   };
 }
@@ -499,6 +547,8 @@ export class Coinflip extends __Contract {
     get_history: InvokeFunction<[], Vec<CoinFlipOutput>>;
     get_seed_by_counter: InvokeFunction<[counter: BigNumberish], string>;
     round_cost: InvokeFunction<[], BN>;
+    set_max_bet: InvokeFunction<[max_bet: BigNumberish], void>;
+    set_min_bet: InvokeFunction<[min_bet: BigNumberish], void>;
     withdraw: InvokeFunction<[asset_id: AssetIdInput, amount: BigNumberish], void>;
   };
 
