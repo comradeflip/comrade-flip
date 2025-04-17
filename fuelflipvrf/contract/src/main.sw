@@ -28,7 +28,7 @@ const VRF_ID = 0xf0b0fcded2b3dcbc529d611300b904df97bf473240ce4679993e418b36b3e8d
 const FUEL_ASSET_ID = AssetId::from(0x1d5d97005e41cae2187a895fd8eab0506111e0e2f3331cd3912c15c24e3c1d82);
 
 // Change this to the actual owner(deployer) address
-const OWNER_ADDRESS = Address::from(0x68D4c28F65cf6d91CB3bd5dd590C6C0cF344F42c3010912FE4ac278F969ebE3C);
+const OWNER_ADDRESS = Address::from(0x49045174E4Ec79B6425C0a96db4d27dfC46Da94f435215D3C5C4B3F2c1F1f70b);
 
 pub enum Error {
     OnlyVrfCanFulfill: (),
@@ -266,7 +266,7 @@ impl ComradeFlip for Contract {
         let fee = vrf.get_fee(AssetId::base());
         let _ = vrf.request {
             asset_id: AssetId::base().bits(),
-            coins: 4*fee,
+            coins: fee+21000,
         }(force);
         log(Notifications::FlipCreated(flip));
         new_counter
