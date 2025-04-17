@@ -47,6 +47,10 @@ abi ComradeFlip {
     fn withdraw(asset_id: AssetId, amount: u64);
     #[storage(read, write)]
     fn fallback_fulfill(seed: b256, randomness: B512);
+    #[storage(read, write)]
+    fn set_min_bet(min_bet: u64);
+    #[storage(read, write)]
+    fn set_max_bet(max_bet: u64);
     #[storage(read)]
     fn get_flip_counter() -> u64;
     #[storage(read)]
@@ -78,6 +82,8 @@ enum PlayerState {
 storage {
     flip_state: StorageMap<u64, CoinFlip> = StorageMap {},
     flip_counter: u64 = 0,
+    min_bet: u64 = 1000000000000,
+    max_bet: u64 = 25000000000000,
     force_map: StorageMap<b256, u64> = StorageMap {},
     seed_map: StorageMap<u64, b256> = StorageMap {},
 }
@@ -156,6 +162,21 @@ impl ComradeFlip for Contract {
         }
         log(Notifications::FlipFulfilled(flip));
     }
+    #[storage(read, write)]
+    fn set_min_bet(min_bet: u64) {
+        let authorized_address: Identity = Identity::Address(OWNER_ADDRESS);
+        let sender = msg_sender().unwrap();
+        require(sender == authorized_address, "Unauthorized access");
+        storage.min_bet.write(min_bet);
+    }
+    #[storage(read, write)]
+    fn set_max_bet(max_bet: u64) {
+        let authorized_address: Identity = Identity::Address(OWNER_ADDRESS);
+        let sender = msg_sender().unwrap();
+        require(sender == authorized_address, "Unauthorized access");
+        storage.max_bet.write(max_bet);
+    }
+    
     fn withdraw(asset_id: AssetId, amount: u64) {
 
         let authorized_address: Identity = Identity::Address(OWNER_ADDRESS);
@@ -220,7 +241,13 @@ impl ComradeFlip for Contract {
         let sender = msg_sender().unwrap();
         let amount = msg_amount();
         let asset_id = msg_asset_id();
+        let contract_balance = this_balance(FUEL_ASSET_ID);
+        let min_bet = storage.min_bet.try_read().unwrap();
+        let max_bet = storage.max_bet.try_read().unwrap();
         require(asset_id == FUEL_ASSET_ID, "Invalid asset");
+        require(contract_balance >= 2*amount, "Insufficient contract balance");
+        require(amount >= min_bet, "Minimum bet amount is 1000 FUEL");
+        require(amount <= max_bet, "Maximum bet amount is 25000 FUEL");
         let flip = CoinFlip {
             amount: amount,
             fee: 0,
