@@ -10,6 +10,7 @@ import Balance from "./components/Balance";
 import { BN, getRandomB256, Provider, AssetId, bn } from "fuels";
 import propagandaBg from "./assets/backgroundmain.jpg";
 import subject from "./assets/russian.png";
+import speechbubble from "./assets/speechbubble.png";
 import { CoinFlipOutput } from "./sway-api/contracts/Coinflip";
 
 interface FlipData {
@@ -52,6 +53,7 @@ function App() {
   const [recentFlips, setRecentFlips] = useState<CoinFlipOutput[]>([]);
   const [finalCoinSide, setFinalCoinSide] = useState<"gold" | "silver" | null>(null);
   const [initialFlip, setInitialFlip] = useState(true);
+  const [showSpeechBubble, setShowSpeechBubble] = useState(false);
 
   useEffect(() => {
     const fetchFlips = async () => {
@@ -73,6 +75,16 @@ function App() {
       setInitialFlip(false);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    if (finalCoinSide && !isWaitingResult) {
+      setShowSpeechBubble(true);
+      const timer = setTimeout(() => {
+        setShowSpeechBubble(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [finalCoinSide, isWaitingResult]);
 
   const handleFlip = async () => {
     console.log("handleFlip");
@@ -238,7 +250,56 @@ function App() {
                 top: '50%',
               }}
             />
-
+            {showSpeechBubble && finalCoinSide && !isWaitingResult && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                transition={{ duration: 0.2 }}
+                className="hidden md:block absolute"
+                style={{
+                  transform: 'translate(20%, -200%)',
+                  left: '50%',
+                  top: '-20%',
+                  width: '260px',
+                  height: '180px',
+                  zIndex: 20,
+                }}
+              >
+                <img
+                  src={speechbubble}
+                  alt="speech bubble"
+                  className="w-full h-full object-contain"
+                />
+                <div 
+                  className="absolute top-[85px] left-[135px] transform -translate-x-1/2 -translate-y-1/2 text-center"
+                  style={{ width: '80%' }}
+                >
+                  <div className="flex flex-col gap-1">
+                    <span 
+                      className="font-konstruktor text-3xl md:text-4xl font-bold"
+                      style={{
+                        WebkitTextStroke: "1px #000000",
+                        color: "#000000"
+                      }}
+                    >
+                      {finalCoinSide === selectedSide ? "WINNER!" : "LOSER!"}
+                    </span>
+                    <span 
+                      className="font-konstruktor text-lg md:text-xl font-bold -mt-3"
+                      style={{
+                        WebkitTextStroke: "1px #000000",
+                        color: finalCoinSide === selectedSide ? '#00FF00' : '#FF0000'
+                      }}
+                    >
+                      {finalCoinSide === selectedSide 
+                        ? `+${(betAmount * 2 * 98) / 100} FUEL` 
+                        : `-${betAmount} FUEL`}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            )}
             <motion.div
               className="w-[208px] h-[208px] md:w-64 md:h-64 xl:w-72 xl:h-72 rounded-full bg-black/40 flex items-center justify-center relative shadow-[0_0_50px_rgba(255,0,255,0.15)] z-10"
               animate={{
@@ -498,6 +559,20 @@ function App() {
               </tbody>
             </table>
           </div>
+        </div>
+
+        {/* Disclaimer */}
+        <div className="mt-4 text-center">
+          <p 
+            className="font-konstruktor text-lg md:text-xl"
+            style={{
+              WebkitTextStroke: "1px #000000",
+              color: "#FFCC57",
+              filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))",
+            }}
+          >
+            ⚠️ This game is just for fun, please don't take it seriously. ⚠️
+          </p>
         </div>
       </main>
     </div>
