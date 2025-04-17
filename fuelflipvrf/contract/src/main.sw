@@ -266,7 +266,7 @@ impl ComradeFlip for Contract {
         let fee = vrf.get_fee(AssetId::base());
         let _ = vrf.request {
             asset_id: AssetId::base().bits(),
-            coins: 2*fee,
+            coins: 4*fee,
         }(force);
         log(Notifications::FlipCreated(flip));
         new_counter

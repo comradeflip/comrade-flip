@@ -35,7 +35,7 @@ function App() {
   const { wallet } = useWallet();
 
   const contractId =
-    "0x818c85d078e38d9fcf2d545b337b0a9edda46dc6bd3ff0e3116d4113f3601edc";
+    "0x71b0e554d5b4d7d58f6d88a0c624cd727966a05f29ddd5add07492caf4df2dde";
   const ORAO_MAINNET_CONTRACT_ID =
     "0xf0b0fcded2b3dcbc529d611300b904df97bf473240ce4679993e418b36b3e8d0";
   const FUEL_ASSET_ID =
