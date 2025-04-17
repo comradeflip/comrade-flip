@@ -427,6 +427,33 @@ function App() {
               </div>
             </div>
 
+            <div className="flex items-center justify-center mt-2 mb-4 opacity-80 group">
+              <div className="relative flex items-center gap-2">
+                <span 
+                  className="font-konstruktor text-sm text-black inline-flex items-center justify-center w-4 h-4 rounded-full border border-2 border-black -mt-1"
+                  style={{
+                    lineHeight: "1",
+                    fontSize: "12px"
+                  }}
+                >
+                  ★
+                </span>
+                <span 
+                  className="font-konstruktor text-md text-black"
+                >
+                  2% of winnings go to the CFP!
+                </span>
+                <div className="absolute opacity-0 group-hover:opacity-100 transition-opacity bg-[#FF0000] border-2 border-[#FFCC57] text-sm p-3 rounded-md -top-20 left-1/2 transform -translate-x-1/2 pointer-events-none font-konstruktor min-w-[200px] z-50">
+                  <div className="text-[#FFCC57]" style={{ WebkitTextStroke: "0.5px #000000" }}>
+                    NOTICE TO ALL CITIZENS
+                  </div>
+                  <div className="text-white text-[10px] mt-1">
+                    2% of winnings are donated to the Committee of Fuel Propaganda for the greater good of the State!
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
