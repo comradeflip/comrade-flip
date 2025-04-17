@@ -30,7 +30,7 @@ function App() {
   );
   const [isFlipping, setIsFlipping] = useState(false);
   const [isWaitingResult, setIsWaitingResult] = useState(false);
-  const [betAmount, setBetAmount] = useState<number>(10);
+  const [betAmount, setBetAmount] = useState<number>(1000);
   const isConnected = useIsConnected();
   const { wallet } = useWallet();
 
@@ -86,8 +86,8 @@ function App() {
       return;
     }
 
-    if (betAmount < 10) {
-      toast.error("Minimum bet amount is 10 FUEL");
+    if (betAmount < 1000) {
+      toast.error("Minimum bet amount is 1000 FUEL");
       return;
     }
     const balance = await contract?.getBalance(FUEL_ASSET_ID as string)
@@ -335,9 +335,9 @@ function App() {
             <div className="relative mb-4 w-full">
               <input
                 type="range"
-                min={10}
-                max={100000}
-                step={10}
+                min={1000}
+                max={250000}
+                step={1000}
                 value={betAmount}
                 onChange={(e) => setBetAmount(Number(e.target.value))}
                 className="w-full h-2 appearance-none bg-[#FFCC57]"
@@ -353,7 +353,7 @@ function App() {
                     WebkitTextStroke: "1px #FFCC57",
                   }}
                 >
-                  10 FUEL
+                  1000 FUEL
                 </span>
                 <span
                   className="text-xl font-bold font-konstruktor text-[#000000]"
@@ -361,7 +361,7 @@ function App() {
                     WebkitTextStroke: "1px #FFCC57",
                   }}
                 >
-                  100000 FUEL
+                  250000 FUEL
                 </span>
               </div>
             </div>
